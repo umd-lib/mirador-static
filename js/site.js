@@ -31,11 +31,15 @@ $(function() {
       var parameterArr = queryArray[i].split('='); //split key and value
       if (parameterArr[0] == parameterName) { return parameterArr[1]; }
     }
+    return '';
   }
-  var manifestPcdmID = getParamValue('manifest');
+  var manifestPcdmID = decodeURIComponent(getParamValue('manifest'));
   var iiifURLPrefix = decodeURIComponent(getParamValue('iiifURLPrefix'));
   var manifestURI = iiifURLPrefix + manifestPcdmID;
-  // var manifestURI = 'http://iiif-sandbox.lib.umd.edu/manifests/sn83045081/1902-01-15/issue.json';
+  // demo
+  if (manifestURI == ''){
+    manifestURI = './demo/manifest.json';
+  }
 
   /**
    * OCR side-by-side required local varibles
@@ -127,37 +131,37 @@ $(function() {
           'hoverFillColorAlpha': 0.5,
           //customize anno styling
           'annotationTypeStyles': {
-            'umd:searchResult': {
+            'umd:Hits': {
               'strokeColor': 'rgba(255, 255, 0, 0.6)',
               'fillColor': 'yellow',
-              'fillColorAlpha': 0.4,
+              'fillColorAlpha': 0.6,
               'hoverColor': 'rgba(255, 255, 0, 0.6)',
               'hoverFillColor': 'yellow',
-              'hoverFillColorAlpha': 0.6,
-              'hideTooltip': true
-            },
-            'umd:articleSegment': {
-              'strokeColor': 'rgba(255, 255, 255, 0.2)',
-              'fillColor': 'green',
-              'fillColorAlpha': 0.1,
-              'hoverColor': 'rgba(255, 255, 255, 0.2)',
-              'hoverFillColor': 'green',
               'hoverFillColorAlpha': 0.4,
               'hideTooltip': true
             },
             'umd:Article': {
               'strokeColor': 'rgba(255, 255, 255, 0)',
               'fillColor': 'green',
-              'fillColorAlpha': 0.1,
+              'fillColorAlpha': 0.08,
               'hoverColor': 'rgba(255, 255, 255, 0.2)',
               'hoverFillColor': 'green',
+              'hoverFillColorAlpha': 0.4,
+              'hideTooltip': true
+            },
+            'umd:ArticleSelected': {
+              'strokeColor': 'rgba(255, 255, 255, 0)',
+              'fillColor': 'blue',
+              'fillColorAlpha': 0.15,
+              'hoverColor': 'rgba(255, 255, 255, 0.2)',
+              'hoverFillColor': 'blue',
               'hoverFillColorAlpha': 0.4,
               'hideTooltip': true
             },
             'umd:Line': {
               'strokeColor': 'rgba(255, 255, 0, 0.05)',
               'fillColor': 'yellow',
-              'fillColorAlpha': 0.01,
+              'fillColorAlpha': 0.08,
               'hoverColor': 'rgba(255, 255, 0, 0.4)',
               'hoverFillColor': 'yellow',
               'hoverFillColorAlpha': 0.4,
