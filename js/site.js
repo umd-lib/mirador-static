@@ -34,7 +34,7 @@ $(function() {
   }
   var manifestPcdmID = getParamValue('manifest');
   var iiifURLPrefix = decodeURIComponent(getParamValue('iiifURLPrefix'));
-  var manifestURI = iiifURLPrefix + manifestPcdmID;
+  var manifestURI = iiifURLPrefix + manifestPcdmID + '/manifest';
   // var manifestURI = 'http://iiif-sandbox.lib.umd.edu/manifests/sn83045081/1902-01-15/issue.json';
 
   /**
