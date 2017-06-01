@@ -139,10 +139,10 @@ $(function() {
             'umd:articleSegment': {
               'strokeColor': 'rgba(255, 255, 255, 0.2)',
               'fillColor': 'green',
-              'fillColorAlpha': 0.1,
+              'fillColorAlpha': 0,
               'hoverColor': 'rgba(255, 255, 255, 0.2)',
               'hoverFillColor': 'green',
-              'hoverFillColorAlpha': 0.4,
+              'hoverFillColorAlpha': 0.2,
               'hideTooltip': true
             },
             'umd:Article': {
