@@ -35,6 +35,10 @@ $(function() {
   var manifestPcdmID = getParamValue('manifest');
   var iiifURLPrefix = decodeURIComponent(getParamValue('iiifURLPrefix'));
   var manifestURI = iiifURLPrefix + manifestPcdmID + '/manifest';
+  var query = getParamValue('q');
+  if (query) {
+    manifestURI += '?q=' + encodeURIComponent(query)
+  }
   // var manifestURI = 'http://iiif-sandbox.lib.umd.edu/manifests/sn83045081/1902-01-15/issue.json';
 
   /**
@@ -82,7 +86,6 @@ $(function() {
     success: function (data) {
       /** @define {string} canvasID get page CanvasID or first page */
       var canvasID = getCanvasID(iiifURLPrefix, manifestPcdmID, data);
-      // var canvasID = 'http://iiif-sandbox.lib.umd.edu/manifests/sn83045081/1902-01-15/2';
 
       /** initalize and configure Mirador instance */
       m = Mirador({
@@ -90,15 +93,12 @@ $(function() {
         'layout': '1x1',
         'buildPath': 'build/mirador-v2.1.2-umd-1.1/',
         'data': [
-          // { "manifestUri": "http://iiif.harvardartmuseums.org/manifests/object/299843", "location": "Harvard University"},
           { 'manifestUri': manifestURI, 'location': 'University of Maryland', 'manifestContent': data }
         ],
         'mainMenuSettings': {
           'show': false
         },
         'windowObjects': [{
-          // loadedManifest: "http://iiif.harvardartmuseums.org/manifests/object/299843",
-          // viewType: "ImageView",
           'loadedManifest': data['@id'],
           'canvasID': canvasID,
           'viewType': 'ImageView',
