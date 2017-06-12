@@ -54,7 +54,7 @@ $(function() {
     if (umdMiradorOCRHovered > 0 && umdMiradorOCRText) {
       if (!sidePanelVisible) { m.eventEmitter.publish('sidePanelVisibilityByTab', true); }
       $('div.sidePanel').html('<h2 style=\"color: #a40404;\">Selection Text</h2><p><a style=\"color: #006699;\" ' +
-          'href=\"http://www.lib.umd.edu/\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
+          'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
           umdMiradorOCRText.replace(/(?:-\r\n|-\r|-\n)/g, '').replace(/(?:\r\n|\r|\n)/g, ' ') + '</p>');
     }
   }
@@ -199,11 +199,11 @@ $(function() {
         if (typeof options.viewType !== 'undefined') {
           if (options.viewType === 'ImageView') {
             $('div.sidePanel').html('<h2 style=\"color: #a40404;\">Selection Text</h2><p><a style=\"color: #006699;\" '+
-                'href=\"http://www.lib.umd.edu/\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
+                'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
                 'Click on annotations to display selection text.</p>');
           } else {
             $('div.sidePanel').html('<h2 style=\"color: #a40404;\">Selection Text</h2><p><a style=\"color: #006699;\" ' +
-                'href=\"http://www.lib.umd.edu/\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
+                'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
                 'Switch to the Image View and click on annotations to display selection text.</p>');
             if (sidePanelVisible) { m.eventEmitter.publish('sidePanelVisibilityByTab', false); }
           }
