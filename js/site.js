@@ -33,12 +33,19 @@ $(function() {
     }
     return '';
   }
+
+  var manifestURI = '';
   var manifestPcdmID = decodeURIComponent(getParamValue('manifest'));
   var iiifURLPrefix = decodeURIComponent(getParamValue('iiifURLPrefix'));
-  var manifestURI = iiifURLPrefix + manifestPcdmID + '/manifest';
-  // default to demo
-  if (manifestURI == '') {
-    manifestURI = './demo/manifest.json';
+  if (manifestPcdmID != '') {
+    manifestURI = iiifURLPrefix + manifestPcdmID;
+    if (iiifURLPrefix != '') {
+      // make the URI match the IIIF Presentation API standards
+      manifestURI += '/manifest';
+    }
+  } else {
+    // default to demo
+    manifestURI = './docs/demo/manifest.json';
   }
   var query = getParamValue('q');
   if (query) {
@@ -92,7 +99,6 @@ $(function() {
     return canvasesJSON[0]['@id'];
   }
 
-  /** Get manifests and initalize Mirador instance */
   $.ajax({
     url: manifestURI,
     dataType: 'json',
