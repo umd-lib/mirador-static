@@ -2,36 +2,46 @@
 
 Current Mirador version: [v2.1.2-umd-1.1](https://github.com/umd-lib/mirador/releases/tag/v2.1.2-umd-1.1).
 
-## Running this version
+## Quick Start
 
-To prevent cross-origin requests, please clone this repo to a local web server and run via HTTP.
+To prevent cross-origin request errors, please clone this repo to a local web server and run via HTTP.
 
-A simple local web server: [https://www.browsersync.io/](https://www.browsersync.io/).
+### Running with Browsersync
 
-If using browsersync, run `browser-sync start --server` and visit: [http://localhost:3000/mirador.html](http://localhost:3000/mirador.html).
+[Browsersync](https://www.browsersync.io/) is a simple web server for front-end development. It requires NodeJS to run.
 
-## Testing dynamic manifest:
+```
+# install Browsersync
+npm install -g browser-sync
 
-- [`http://localhost:3000/mirador.html`](http://localhost:3000/mirador.html) (default)
-   * `@define {string} iiifURLPrefix` = ''
-   * `@define {string} manifestPcdmID` = ''
-   * `@define {string} manifestURI` = '/demo/manifest.json'
+# clone mirador-static and start Browsersync
+git clone git@github.com:umd-lib/mirador-static.git
+cd mirador-static
+browser-sync start --server
+```
 
-- [`http://localhost:3000/mirador.html?iiifURLPrefix=http://iiif-sandbox.lib.umd.edu/manifests/&manifest=sn83045081/1902-01-15/issue.json`](http://localhost:3000/mirador.html?iiifURLPrefix=http%3A%2F%2Fiiif-sandbox.lib.umd.edu%2Fmanifests%2F&manifest=sn83045081%2F1902-01-15%2Fissue.json) 
-   * `@define {string} iiifURLPrefix` = 'http://iiif-sandbox.lib.umd.edu/manifests/'
-   * `@define {string} manifestPcdmID` = 'sn83045081/1902-01-15/issue.json'
-   * `@define {string} manifestURI` = 'http://iiif-sandbox.lib.umd.edu/manifests/sn83045081/1902-01-15/issue.json'
+Mirador Static will be running at <http://localhost:3000/mirador.html>.
 
-- [`http://localhost:3000/mirador.html?manifest=http://taixiaoyu.com/mirador-static/manifest.json`](http://localhost:3000/mirador.html?manifest=http%3A%2F%2Ftaixiaoyu.com%2Fmirador-static%2Fmanifest.json)
-   * `@define {string} iiifURLPrefix` = 'http://taixiaoyu.com/mirador-static/'
-   * `@define {string} manifestPcdmID` = 'manifest.json'
-   * `@define {string} manifestURI` = 'http://taixiaoyu.com/mirador-static/manifest.json'
+**Note:** If you have another process (e.g., a Rails app) already listening on localhost port 3000, Browsersync will try ports 3001, 3002, etc., until it finds an open one.
 
-## Configure annotation styles
+## Query Parameters
+
+Mirador Static accepts the following query parameters:
+
+* manifest
+* iiifURLPrefix
+* q
+
+If **manifest** is an IIIF ID only, then **iiifURLPrefix** should also be provided. In this case, the manifest URI will be `{iiifURLPrefix}{manifest}/manifest`. (Note the appended `/manifest`; this is only added if **iiifURLPrefix** is set.)
+
+The **q** parameter, if present, is appended as-is to the manifest URI. This is to enable the IIIF Presentation API backend to support returning hit highlight annotation lists or other dynamic content based on a user query.
+
+## Annotation Styles
 
 `annotationTypeStyles` now supports customizable annotation styles, hovering styles, and ability to show or hide annotation tooltips.  
 
-Annotation with @type: `umd:Hits`, `umd:Article`, `umd:ArticleSelected`, `umd:Line` will have different appearance according to the seetings of `'annotationTypeStyles'` in [`site.js`](site.js):
+Annotation with @type: `umd:Hits`, `umd:Article`, `umd:ArticleSelected`, `umd:Line` will have different appearance according to the seetings of `'annotationTypeStyles'` in [site.js](site.js):
+
 ```js
 'annotationTypeStyles': {
   'umd:Article': {
@@ -47,7 +57,8 @@ Annotation with @type: `umd:Hits`, `umd:Article`, `umd:ArticleSelected`, `umd:Li
 }
 ```
 
-An example oa:annotation:
+An example oa:Annotation:
+
 ```json
 {
   "@id": "P1_TL00160",
