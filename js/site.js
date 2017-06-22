@@ -31,10 +31,22 @@ $(function() {
       var parameterArr = queryArray[i].split('='); //split key and value
       if (parameterArr[0] == parameterName) { return parameterArr[1]; }
     }
+    return '';
   }
-  var manifestPcdmID = getParamValue('manifest');
+
+  var manifestURI = '';
+  var manifestPcdmID = decodeURIComponent(getParamValue('manifest'));
   var iiifURLPrefix = decodeURIComponent(getParamValue('iiifURLPrefix'));
-  var manifestURI = iiifURLPrefix + manifestPcdmID + '/manifest';
+  if (manifestPcdmID != '') {
+    manifestURI = iiifURLPrefix + manifestPcdmID;
+    if (iiifURLPrefix != '') {
+      // make the URI match the IIIF Presentation API standards
+      manifestURI += '/manifest';
+    }
+  } else {
+    // default to demo
+    manifestURI = './docs/demo/manifest.json';
+  }
   var query = getParamValue('q');
   if (query) {
     manifestURI += '?q=' + query
@@ -87,7 +99,6 @@ $(function() {
     return canvasesJSON[0]['@id'];
   }
 
-  /** Get manifests and initalize Mirador instance */
   $.ajax({
     url: manifestURI,
     dataType: 'json',
@@ -136,17 +147,17 @@ $(function() {
           'hoverFillColorAlpha': 0.5,
           //customize anno styling
           'annotationTypeStyles': {
-            'umd:searchResult': {
+            'umd:Hits': {
               'strokeColor': 'rgba(255, 255, 0, 0.6)',
               'fillColor': 'yellow',
-              'fillColorAlpha': 0.4,
+              'fillColorAlpha': 0.6,
               'hoverColor': 'rgba(255, 255, 0, 0.6)',
               'hoverFillColor': 'yellow',
-              'hoverFillColorAlpha': 0.6,
+              'hoverFillColorAlpha': 0.4,
               'hideTooltip': true
             },
-            'umd:articleSegment': {
-              'strokeColor': 'rgba(255, 255, 255, 0.2)',
+            'umd:Article': {
+              'strokeColor': 'rgba(255, 255, 255, 0)',
               'fillColor': 'green',
               'fillColorAlpha': 0,
               'hoverColor': 'rgba(255, 255, 255, 0.2)',
@@ -154,19 +165,19 @@ $(function() {
               'hoverFillColorAlpha': 0.2,
               'hideTooltip': true
             },
-            'umd:Article': {
+            'umd:ArticleSelected': {
               'strokeColor': 'rgba(255, 255, 255, 0)',
-              'fillColor': 'green',
-              'fillColorAlpha': 0.1,
+              'fillColor': 'blue',
+              'fillColorAlpha': 0.15,
               'hoverColor': 'rgba(255, 255, 255, 0.2)',
-              'hoverFillColor': 'green',
+              'hoverFillColor': 'blue',
               'hoverFillColorAlpha': 0.4,
               'hideTooltip': true
             },
             'umd:Line': {
               'strokeColor': 'rgba(255, 255, 0, 0.05)',
               'fillColor': 'yellow',
-              'fillColorAlpha': 0.01,
+              'fillColorAlpha': 0.08,
               'hoverColor': 'rgba(255, 255, 0, 0.4)',
               'hoverFillColor': 'yellow',
               'hoverFillColorAlpha': 0.4,
