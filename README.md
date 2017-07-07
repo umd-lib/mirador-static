@@ -38,9 +38,9 @@ The **q** parameter, if present, is appended as-is to the manifest URI. This is 
 
 ## Annotation Styles
 
-`annotationTypeStyles` now supports customizable annotation styles, hovering styles, and ability to show or hide annotation tooltips.  
+`annotationTypeStyles` supports multiple annotation styles, hovering styles, and ability to show or hide annotation tooltips.  
 
-Annotation with @type: `umd:Hits`, `umd:Article`, `umd:ArticleSelected`, `umd:Line` will have different appearance according to the seetings of `'annotationTypeStyles'` in [site.js](site.js):
+Annotations with the types `umd:Hits`, `umd:Article`, `umd:ArticleSelected`, and `umd:Line` will each have a different appearance according to the settings of `'annotationTypeStyles'` in [site.js](js/site.js):
 
 ```js
 'annotationTypeStyles': {
@@ -57,7 +57,11 @@ Annotation with @type: `umd:Hits`, `umd:Article`, `umd:ArticleSelected`, `umd:Li
 }
 ```
 
-An example oa:Annotation:
+## Annotations
+
+[Web Annotations](https://www.w3.org/TR/annotation-model/) are used to implement both the full-text blocks and the search hit highlights.
+
+An example Web Annotation, in JSON-LD:
 
 ```json
 {
@@ -88,4 +92,3 @@ An example oa:Annotation:
 ## License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (Apache 2.0).
-
