@@ -35,7 +35,7 @@ $(function() {
   }
 
   var manifestURI = '';
-  var manifestPcdmID = decodeURIComponent(getParamValue('manifest'));
+  var manifestPcdmID = getParamValue('manifest');
   var iiifURLPrefix = decodeURIComponent(getParamValue('iiifURLPrefix'));
   if (manifestPcdmID != '') {
     manifestURI = iiifURLPrefix + manifestPcdmID;
