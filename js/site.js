@@ -77,8 +77,7 @@ $(function() {
     }
     return canvasesJSON[0]['@id'];
   }
-  var currentDirectory = window.location.pathname.split('/').slice(0, -1).join('/');
-  console.log(currentDirectory);
+
   /** Get manifests and initalize Mirador instance */
   $.ajax({
     url: manifestURI,
