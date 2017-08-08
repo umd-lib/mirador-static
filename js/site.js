@@ -77,7 +77,8 @@ $(function() {
     }
     return canvasesJSON[0]['@id'];
   }
-
+  var currentDirectory = window.location.pathname.split('/').slice(0, -1).join('/');
+  console.log(currentDirectory);
   /** Get manifests and initalize Mirador instance */
   $.ajax({
     url: manifestURI,
@@ -93,6 +94,7 @@ $(function() {
         'id': 'mirador-viewer',
         'layout': '1x1',
         'buildPath': 'build/mirador-v2.1.2-umd-1.0/',
+        'i18nPath': '../../js/locales/',
         'data': [
           // { "manifestUri": "http://iiif.harvardartmuseums.org/manifests/object/299843", "location": "Harvard University"},
           { 'manifestUri': manifestURI, 'location': 'University of Maryland', 'manifestContent': data }
