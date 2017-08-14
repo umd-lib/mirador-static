@@ -31,15 +31,36 @@ $(function() {
       var parameterArr = queryArray[i].split('='); //split key and value
       if (parameterArr[0] == parameterName) { return parameterArr[1]; }
     }
+    return '';
   }
+
+  var manifestURI = '';
   var manifestPcdmID = getParamValue('manifest');
   var iiifURLPrefix = decodeURIComponent(getParamValue('iiifURLPrefix'));
-  var manifestURI = iiifURLPrefix + manifestPcdmID + '/manifest';
+  if (manifestPcdmID != '') {
+    manifestURI = iiifURLPrefix + manifestPcdmID;
+    if (iiifURLPrefix != '') {
+      // make the URI match the IIIF Presentation API standards
+      manifestURI += '/manifest';
+    }
+  } else {
+    // default to demo
+    manifestURI = './docs/demo/manifest.json';
+  }
   var query = getParamValue('q');
   if (query) {
     manifestURI += '?q=' + query
   }
-  // var manifestURI = 'http://iiif-sandbox.lib.umd.edu/manifests/sn83045081/1902-01-15/issue.json';
+
+  // source: https://stackoverflow.com/a/6234804/5124907
+  var escapeHtml = function(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+  }
 
   /**
    * OCR side-by-side required local varibles
@@ -54,8 +75,8 @@ $(function() {
     if (umdMiradorOCRHovered > 0 && umdMiradorOCRText) {
       if (!sidePanelVisible) { m.eventEmitter.publish('sidePanelVisibilityByTab', true); }
       $('div.sidePanel').html('<h2 style=\"color: #a40404;\">Selection Text</h2><p><a style=\"color: #006699;\" ' +
-          'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
-          umdMiradorOCRText.replace(/(?:-\r\n|-\r|-\n)/g, '').replace(/(?:\r\n|\r|\n)/g, ' ') + '</p>');
+          'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555; white-space: pre-wrap; font-size: 12px;\">' +
+          escapeHtml(umdMiradorOCRText) + '</p>');
     }
   }
 
@@ -78,7 +99,6 @@ $(function() {
     return canvasesJSON[0]['@id'];
   }
 
-  /** Get manifests and initalize Mirador instance */
   $.ajax({
     url: manifestURI,
     dataType: 'json',
@@ -92,6 +112,7 @@ $(function() {
         'id': 'mirador-viewer',
         'layout': '1x1',
         'buildPath': 'build/mirador-v2.1.2-umd-1.1/',
+        'i18nPath': '../../js/locales/',
         'data': [
           { 'manifestUri': manifestURI, 'location': 'University of Maryland', 'manifestContent': data }
         ],
