@@ -31,11 +31,36 @@ $(function() {
       var parameterArr = queryArray[i].split('='); //split key and value
       if (parameterArr[0] == parameterName) { return parameterArr[1]; }
     }
+    return '';
   }
+
+  var manifestURI = '';
   var manifestPcdmID = getParamValue('manifest');
   var iiifURLPrefix = decodeURIComponent(getParamValue('iiifURLPrefix'));
-  var manifestURI = iiifURLPrefix + manifestPcdmID + '/manifest';
-  // var manifestURI = 'http://iiif-sandbox.lib.umd.edu/manifests/sn83045081/1902-01-15/issue.json';
+  if (manifestPcdmID != '') {
+    manifestURI = iiifURLPrefix + manifestPcdmID;
+    if (iiifURLPrefix != '') {
+      // make the URI match the IIIF Presentation API standards
+      manifestURI += '/manifest';
+    }
+  } else {
+    // default to demo
+    manifestURI = './docs/demo/manifest.json';
+  }
+  var query = getParamValue('q');
+  if (query) {
+    manifestURI += '?q=' + query
+  }
+
+  // source: https://stackoverflow.com/a/6234804/5124907
+  var escapeHtml = function(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+  }
 
   /**
    * OCR side-by-side required local varibles
@@ -50,8 +75,8 @@ $(function() {
     if (umdMiradorOCRHovered > 0 && umdMiradorOCRText) {
       if (!sidePanelVisible) { m.eventEmitter.publish('sidePanelVisibilityByTab', true); }
       $('div.sidePanel').html('<h2 style=\"color: #a40404;\">Selection Text</h2><p><a style=\"color: #006699;\" ' +
-          'href=\"http://www.lib.umd.edu/\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
-          umdMiradorOCRText.replace(/(?:-\r\n|-\r|-\n)/g, '').replace(/(?:\r\n|\r|\n)/g, ' ') + '</p>');
+          'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555; white-space: pre-wrap; font-size: 12px;\">' +
+          escapeHtml(umdMiradorOCRText) + '</p>');
     }
   }
 
@@ -74,7 +99,6 @@ $(function() {
     return canvasesJSON[0]['@id'];
   }
 
-  /** Get manifests and initalize Mirador instance */
   $.ajax({
     url: manifestURI,
     dataType: 'json',
@@ -82,23 +106,20 @@ $(function() {
     success: function (data) {
       /** @define {string} canvasID get page CanvasID or first page */
       var canvasID = getCanvasID(iiifURLPrefix, manifestPcdmID, data);
-      // var canvasID = 'http://iiif-sandbox.lib.umd.edu/manifests/sn83045081/1902-01-15/2';
 
       /** initalize and configure Mirador instance */
       m = Mirador({
         'id': 'mirador-viewer',
         'layout': '1x1',
-        'buildPath': 'build/mirador-v2.1.2-umd-1.0/',
+        'buildPath': 'build/mirador-v2.1.2-umd-1.1/',
+        'i18nPath': '../../js/locales/',
         'data': [
-          // { "manifestUri": "http://iiif.harvardartmuseums.org/manifests/object/299843", "location": "Harvard University"},
           { 'manifestUri': manifestURI, 'location': 'University of Maryland', 'manifestContent': data }
         ],
         'mainMenuSettings': {
           'show': false
         },
         'windowObjects': [{
-          // loadedManifest: "http://iiif.harvardartmuseums.org/manifests/object/299843",
-          // viewType: "ImageView",
           'loadedManifest': data['@id'],
           'canvasID': canvasID,
           'viewType': 'ImageView',
@@ -139,10 +160,10 @@ $(function() {
             'umd:articleSegment': {
               'strokeColor': 'rgba(255, 255, 255, 0.2)',
               'fillColor': 'green',
-              'fillColorAlpha': 0.1,
+              'fillColorAlpha': 0,
               'hoverColor': 'rgba(255, 255, 255, 0.2)',
               'hoverFillColor': 'green',
-              'hoverFillColorAlpha': 0.4,
+              'hoverFillColorAlpha': 0.2,
               'hideTooltip': true
             },
             'umd:Article': {
@@ -199,11 +220,11 @@ $(function() {
         if (typeof options.viewType !== 'undefined') {
           if (options.viewType === 'ImageView') {
             $('div.sidePanel').html('<h2 style=\"color: #a40404;\">Selection Text</h2><p><a style=\"color: #006699;\" '+
-                'href=\"http://www.lib.umd.edu/\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
+                'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
                 'Click on annotations to display selection text.</p>');
           } else {
             $('div.sidePanel').html('<h2 style=\"color: #a40404;\">Selection Text</h2><p><a style=\"color: #006699;\" ' +
-                'href=\"http://www.lib.umd.edu/\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
+                'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
                 'Switch to the Image View and click on annotations to display selection text.</p>');
             if (sidePanelVisible) { m.eventEmitter.publish('sidePanelVisibilityByTab', false); }
           }
