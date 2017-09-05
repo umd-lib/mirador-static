@@ -1,6 +1,6 @@
 # mirador-static
 
-Current Mirador version: [v2.1.2-umd-1.1](https://github.com/umd-lib/mirador/releases/tag/v2.1.2-umd-1.1).
+Current Mirador version: [v2.1.2-umd-1.2](https://github.com/umd-lib/mirador/releases/tag/v2.1.2-umd-1.2).
 
 ## Quick Start
 
