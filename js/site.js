@@ -1,6 +1,6 @@
 /**
  * Mirador Static (Client) Configuration File
- * Mirador Version: v2.1.2-umd-1.0
+ * Mirador Version: v2.1.2-umd-1.3
  *
  * @author xtai@umd.edu (Xiaoyu Tai)
  */
@@ -111,7 +111,7 @@ $(function() {
       m = Mirador({
         'id': 'mirador-viewer',
         'layout': '1x1',
-        'buildPath': 'build/mirador-v2.1.2-umd-1.2/',
+        'buildPath': 'build/mirador-v2.1.2-umd-1.3/',
         'i18nPath': '../../js/locales/',
         'data': [
           { 'manifestUri': manifestURI, 'location': 'University of Maryland', 'manifestContent': data }
