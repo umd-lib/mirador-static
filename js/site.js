@@ -111,7 +111,7 @@ $(function() {
       m = Mirador({
         'id': 'mirador-viewer',
         'layout': '1x1',
-        'buildPath': 'build/mirador-v2.1.2-umd-1.3/',
+        'buildPath': 'build/mirador-v2.6.0-umd-1.0/',
         'i18nPath': '../../js/locales/',
         'data': [
           { 'manifestUri': manifestURI, 'location': 'University of Maryland', 'manifestContent': data }
