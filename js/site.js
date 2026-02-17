@@ -218,15 +218,11 @@ $(function() {
         }
 
         if (typeof options.viewType !== 'undefined') {
-          if (options.viewType === 'ImageView') {
-            $('div.sidePanel').html('<h2 style=\"color: #a40404;\">Selection Text</h2><p><a style=\"color: #006699;\" '+
-                'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
-                'Click on annotations to display selection text.</p>');
-          } else {
-            $('div.sidePanel').html('<h2 style=\"color: #a40404;\">Selection Text</h2><p><a style=\"color: #006699;\" ' +
-                'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p><p style=\"color: #555555;\">' +
-                'Switch to the Image View and click on annotations to display selection text.</p>');
-            if (sidePanelVisible) { m.eventEmitter.publish('sidePanelVisibilityByTab', false); }
+          $('div.sidePanel').html('<p><a style=\"color: #006699;\" '+
+              'href=\"http://www.lib.umd.edu/digital/contact/digital-feedback\" target=\"_blank\">Feedback</a></p>'
+            );
+          if ((options.viewType !== 'ImageView') && sidePanelVisible) {
+            m.eventEmitter.publish('sidePanelVisibilityByTab', false);
           }
           // enable selection on side panel and meta data information panel
           $('div.sidePanel').mousemove(function(e){ e.stopPropagation(); });
